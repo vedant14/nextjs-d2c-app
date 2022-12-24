@@ -1,5 +1,4 @@
-// import { fetchMongodb } from "@api-lib/mongodb";
-
+import { supabase } from "./supbaseClient";
 /*
       The storeCallback takes in the Session, and stores it on mongodb
       This callback is used for BOTH saving new Sessions and updating existing Sessions.
@@ -7,16 +6,27 @@
       Otherwise, return false
   */
 const storeCallback = async (session) => {
-    try {
-        // const db = await fetchMongodb();
-        // await db
-        //   .collection("__session")
-        //   .updateOne({ id: session.id }, { $set: session }, { upsert: true });
-        console.log(session);
-        return true;
-    } catch (err) {
-        throw new Error(err);
-    }
+  console.log("STORE CALLBACK");
+  try {
+    const { data, error } = await supabase.from("session").upsert(
+      [
+        {
+          session_id: session.id,
+          session: session.session,
+          shop: session.shop,
+          access_token: session.accessToken,
+          request_body: session,
+          scope: session.scope.split(","),
+        },
+      ],
+      { onConflict: "session_id" }
+    );
+
+    console.log("ERS", error);
+    return true;
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 /*
@@ -25,20 +35,16 @@ const storeCallback = async (session) => {
       Otherwise, return undefined
   */
 const loadCallback = async (id) => {
-    try {
-        // const db = await fetchMongodb();
-        // const mongoSession = await db
-        //     .collection("__session")
-        //     .findOne({ id: id });
+  try {
+    let { data: session, error } = await supabase
+      .from("session")
+      .select("*")
+      .eq("session_id", id);
 
-        // if (!mongoSession) return false;
-
-        // //let session = new Shopify.Session.Session(mongoSession.id);
-        // let session = mongoSession; //Object.assign(session, mongoSession);
-        return id;
-    } catch (err) {
-        throw new Error(err);
-    }
+    return session;
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 /*
@@ -47,17 +53,17 @@ const loadCallback = async (id) => {
       Otherwise, return false
   */
 const deleteCallback = async (id) => {
-    try {
-        // const db = await fetchMongodb();
-        // await db.collection("__session").deleteOne({ id: id });
-        return true;
-    } catch (err) {
-        throw new Error(err);
-    }
+  try {
+    // const db = await fetchMongodb();
+    // await db.collection("__session").deleteOne({ id: id });
+    return true;
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 export default {
-    storeCallback,
-    loadCallback,
-    deleteCallback,
+  storeCallback,
+  loadCallback,
+  deleteCallback,
 };
