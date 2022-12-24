@@ -21,8 +21,6 @@ const storeCallback = async (session) => {
       ],
       { onConflict: "session_id" }
     );
-
-    console.log("ERS", error);
     return true;
   } catch (err) {
     throw new Error(err);
@@ -38,9 +36,9 @@ const loadCallback = async (id) => {
   try {
     let { data: session, error } = await supabase
       .from("session")
-      .select("*")
-      .eq("session_id", id);
-
+      .select("access_token")
+      .eq("shop", id);
+    console.log("DATA", id, session);
     return session;
   } catch (err) {
     throw new Error(err);
@@ -54,8 +52,10 @@ const loadCallback = async (id) => {
   */
 const deleteCallback = async (id) => {
   try {
-    // const db = await fetchMongodb();
-    // await db.collection("__session").deleteOne({ id: id });
+    const { data, error } = await supabase
+      .from("session")
+      .delete()
+      .eq("session_id", id);
     return true;
   } catch (err) {
     throw new Error(err);

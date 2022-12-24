@@ -8,7 +8,6 @@ import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
 // Online auth token callback
 export default async function handler(request, response) {
   try {
-    console.log("Callback");
     const callback = await shopify.auth.callback({
       isOnline: true,
       rawRequest: request,
@@ -24,17 +23,13 @@ export default async function handler(request, response) {
     let fetchShopData = true;
     let authEventType = null;
 
-    // Check if shop exists
-    // const shopDoc = await mongodb.collection("shops").findOne({
-    //   shop,
-    // });
-
-    let { data: stores, error } = await supabase.from("stores").select("*");
-
+    let { data: stores, error } = await supabase
+      .from("stores")
+      .select("*")
+      .eq("shop_url", shop);
     if (!stores) {
       authEventType = "install";
       console.log("This shop has never been installed");
-      // This shop has never been installed
       //   await mongodb.collection("shops").insertOne({
       //     shopId: null, // TODO:
       //     shop: shop,
@@ -45,25 +40,27 @@ export default async function handler(request, response) {
       //     installedAt: new Date(),
       //     uninstalledAt: null,
       //   });
-    } else if (!shopDoc.isInstalled) {
-      authEventType = "reinstall";
+    }
+    // else if (!shopDoc.isInstalled) {
+    //   authEventType = "reinstall";
 
-      // This is a REINSTALL
-      //   await mongodb.collection("shops").updateOne(
-      //     {
-      //       shop,
-      //     },
-      //     {
-      //       $set: {
-      //         scopes: session.scope,
-      //         subscription: {},
-      //         isInstalled: true,
-      //         installedAt: new Date(),
-      //         uninstalledAt: null,
-      //       },
-      //     }
-      //   );
-    } else {
+    //   // This is a REINSTALL
+    //   //   await mongodb.collection("shops").updateOne(
+    //   //     {
+    //   //       shop,
+    //   //     },
+    //   //     {
+    //   //       $set: {
+    //   //         scopes: session.scope,
+    //   //         subscription: {},
+    //   //         isInstalled: true,
+    //   //         installedAt: new Date(),
+    //   //         uninstalledAt: null,
+    //   //       },
+    //   //     }
+    //   //   );
+    // }
+    else {
       authEventType = "reauth";
 
       if (stores) {
@@ -93,16 +90,15 @@ export default async function handler(request, response) {
 
       if (fetchShopData) {
         const sessionId = await shopify.session.getOfflineId(shop);
-        const offlineSession = await sessionStorage.loadCallback(sessionId);
+        const offlineSession = await sessionStorage.loadCallback(shop);
 
         // Create Shopify GraphQL Api Client
         const client = new shopify.clients.Graphql({
           session: offlineSession,
         });
-
+        console.log("HERE?");
         // Set the shopData on the store during initial auth
         const apiRes = await client.query({ data: GET_SHOP_DATA });
-
         // Check if data response was successful
         if (!apiRes?.body?.data?.shop) {
           console.warn(`Missing shop data on ${shop}`, apiRes?.body);
