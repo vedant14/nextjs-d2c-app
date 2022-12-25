@@ -3,26 +3,30 @@ import { useAppBridge } from "@shopify/app-bridge-react";
 import { NavigationMenu, AppLink } from "@shopify/app-bridge/actions";
 
 export function AppBridgeNavigation() {
-    const app = useAppBridge();
-    const router = useRouter();
-    
-    const dashboardLink = AppLink.create(app, {
-        label: 'Overview',
-        destination: `/`,
-    });
+  const app = useAppBridge();
+  const router = useRouter();
 
-    const activeLink = (pathName) => {
-        if (!pathName) {
-            return dashboardLink;
-        }
+  const dashboardLink = AppLink.create(app, {
+    label: "Overview",
+    destination: `/`,
+  });
+  const newAdvertLink = AppLink.create(app, {
+    label: "New Ad",
+    destination: `/new-advert`,
+  });
 
-        return null;
+  const activeLink = (pathName) => {
+    if (!pathName) {
+      return dashboardLink;
     }
 
-    NavigationMenu.create(app, {
-        items: [dashboardLink],
-        active: activeLink(router?.pathname),
-    });
-
     return null;
+  };
+
+  NavigationMenu.create(app, {
+    items: [dashboardLink, newAdvertLink],
+    active: activeLink(router?.pathname),
+  });
+
+  return null;
 }
