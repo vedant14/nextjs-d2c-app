@@ -2,7 +2,6 @@ import shopify from "@api-lib/shopify";
 import sessionStorage from "@api-lib/sessionStorage";
 // import { fetchMongodb } from "@api-lib/mongodb";
 import { supabase } from "@api-lib/supbaseClient";
-// import AnalyticsClient from "@api-lib/segmentAnalytics";
 import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
 
 // Online auth token callback
@@ -80,23 +79,14 @@ export default async function handler(request, response) {
       //   );
       // }
 
-      // if (authEventType && AnalyticsClient) {
-      //   AnalyticsClient.track({
-      //     event: authEventType,
-      //     userId: shop, // TODO: switch to user??
-      //     workspace_slug: shop,
-      //   });
-      // }
-
       if (fetchShopData) {
         const sessionId = await shopify.session.getOfflineId(shop);
-        const offlineSession = await sessionStorage.loadCallback(shop);
+        const offlineSession = await sessionStorage.loadCallback(sessionId);
 
         // Create Shopify GraphQL Api Client
         const client = new shopify.clients.Graphql({
           session: offlineSession,
         });
-        console.log("HERE?");
         // Set the shopData on the store during initial auth
         const apiRes = await client.query({ data: GET_SHOP_DATA });
         // Check if data response was successful
@@ -107,7 +97,6 @@ export default async function handler(request, response) {
             ...apiRes.body.data.shop,
             shopLocales: apiRes.body.data.shopLocales,
           };
-          console.log("SHOP", shopData);
           // Save shopData to shop document
           // await mongodb.collection("shops").updateOne(
           //   {

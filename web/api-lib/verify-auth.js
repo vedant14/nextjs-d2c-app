@@ -8,30 +8,16 @@ export const verifyAuth = async (request, response) => {
       rawRequest: request,
       rawResponse: response,
     });
-
-    console.log(currentSessionId);
     if (!currentSessionId) {
       throw `No currentSessionId`;
     }
 
-    const session = await sessionStorage.loadCallback(shop);
-
+    const session = await sessionStorage.loadCallback(currentSessionId);
     if (!session) {
       throw `No session found`;
     }
-
     return {
-      session: session || null,
-      shop: session.shop,
-      shopify,
-      client: {
-        rest: new shopify.clients.Rest({
-          session,
-        }),
-        graphql: new shopify.clients.Graphql({
-          session,
-        }),
-      },
+      shop: session.request_body.shop,
     };
   } catch (error) {
     return response.status(401).json();

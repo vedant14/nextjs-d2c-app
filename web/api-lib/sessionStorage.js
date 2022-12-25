@@ -6,9 +6,8 @@ import { supabase } from "./supbaseClient";
       Otherwise, return false
   */
 const storeCallback = async (session) => {
-  console.log("STORE CALLBACK");
   try {
-    const { data, error } = await supabase.from("session").upsert(
+    await supabase.from("session").upsert(
       [
         {
           session_id: session.id,
@@ -36,10 +35,11 @@ const loadCallback = async (id) => {
   try {
     let { data: session, error } = await supabase
       .from("session")
-      .select("access_token")
-      .eq("shop", id);
-    console.log("DATA", id, session);
-    return session;
+      .select("request_body")
+      .eq("session_id", id);
+    if (session.length > 0) {
+      return session[0];
+    }
   } catch (err) {
     throw new Error(err);
   }
@@ -52,10 +52,7 @@ const loadCallback = async (id) => {
   */
 const deleteCallback = async (id) => {
   try {
-    const { data, error } = await supabase
-      .from("session")
-      .delete()
-      .eq("session_id", id);
+    await supabase.from("session").delete().eq("session_id", id);
     return true;
   } catch (err) {
     throw new Error(err);
