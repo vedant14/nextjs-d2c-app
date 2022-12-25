@@ -16,7 +16,10 @@ export function CustomLayout({
     <Page narrowWidth>
       <TitleBar title={title} primaryAction={primaryAction} />
       <Layout>
-        <Layout.Section>{children}</Layout.Section>
+        <Layout.Section>
+          {children}
+          <div style={{ marginBottom: "30px" }}>&nbsp;</div>
+        </Layout.Section>
       </Layout>
     </Page>
   );

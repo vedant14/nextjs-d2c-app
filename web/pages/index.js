@@ -1,13 +1,10 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
-import { CustomLayout } from "@components/kit";
+
+import { AdList, CustomLayout } from "@components/kit";
 
 export default function Home() {
-  return (
-    <CustomLayout
-      title="Overview"
-      primaryActionText="New Ad"
-      primaryActionLink="/new-advert"
-    >
+  function HeadingCard() {
+    return (
       <Card sectioned>
         <Stack
           wrap={false}
@@ -17,7 +14,7 @@ export default function Home() {
         >
           <Stack.Item fill>
             <TextContainer spacing="loose">
-              <Text variant="headingXl" as="h1">
+              <Text variant="headingLg" as="h1">
                 All your active advertisements will be shown here
               </Text>
 
@@ -41,6 +38,17 @@ export default function Home() {
           </Stack.Item>
         </Stack>
       </Card>
+    );
+  }
+
+  return (
+    <CustomLayout
+      title="Overview"
+      primaryActionText="New Ad"
+      primaryActionLink="/new-advert"
+    >
+      <HeadingCard />
+      <AdList />
     </CustomLayout>
   );
 }
