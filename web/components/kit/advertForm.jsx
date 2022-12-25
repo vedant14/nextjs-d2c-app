@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import {
   Card,
   Form,
@@ -6,15 +7,15 @@ import {
   Image,
   TextField,
   List,
-  TextContainer,
   Button,
   ButtonGroup,
 } from "@shopify/polaris";
 import { ResourcePicker } from "@shopify/app-bridge-react";
 import { Toast } from "@shopify/app-bridge-react";
-
-export default function NewAdvert() {
+import { useShop } from "@components/providers/Shop";
+export function AdvertForm() {
   const emptyToastProps = { content: null };
+  const { shopData } = useShop();
   const [toastProps, setToastProps] = useState(emptyToastProps);
   const [open, setOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -25,7 +26,6 @@ export default function NewAdvert() {
   const toastMarkup = toastProps.content && !isRefetchingCount && (
     <Toast {...toastProps} onDismiss={() => setToastProps(emptyToastProps)} />
   );
-  console.log(title);
   function callResourcePicker() {
     setOpen(true);
   }
@@ -33,7 +33,22 @@ export default function NewAdvert() {
   function nullifyProduct() {
     setSelectedProduct(null);
   }
-  function handleSubmit() {
+  async function handleSubmit() {
+    const adData = {
+      title: title,
+      description: adCopy,
+      productData: selectedProduct,
+      shopData: shopData,
+    };
+    axios
+      .post("/api/db/post-advert", adData)
+      .then(function (response) {
+        console.log(response);
+        // TODO: toast message and redirect
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     setSelectedProduct(null);
   }
   return (
@@ -53,37 +68,33 @@ export default function NewAdvert() {
 
       {selectedProduct ? (
         <div>
-          <div>&nbsp;</div>
-          <Card
-            actions={[
-              {
-                content: "Remove",
-                destructive: true,
-                onAction: nullifyProduct,
-              },
-            ]}
-            title={selectedProduct.title}
-          >
-            <Card.Section>
-              <div style={{ display: "flex" }}>
-                <Image
-                  width={"100px"}
-                  source={selectedProduct.images[0]?.originalSrc}
-                  alt={selectedProduct.images[0]?.altText}
-                />
-                <List>
-                  <List.Item>
-                    Total Inventory: {selectedProduct.totalInventory}
-                  </List.Item>
-                </List>
-              </div>
-            </Card.Section>
-          </Card>
-          <div>&nbsp;</div>
-
           <Form onSubmit={handleSubmit}>
             <FormLayout>
-              <Card>
+              <Card
+                actions={[
+                  {
+                    content: "Remove",
+                    destructive: true,
+                    onAction: nullifyProduct,
+                  },
+                ]}
+                title={selectedProduct.title}
+              >
+                <Card.Section>
+                  <div style={{ display: "flex" }}>
+                    <Image
+                      width={"100px"}
+                      source={selectedProduct.images[0]?.originalSrc}
+                      alt={selectedProduct.images[0]?.altText}
+                    />
+                    <List>
+                      <List.Item>
+                        Total Inventory: {selectedProduct.totalInventory}
+                      </List.Item>
+                    </List>
+                  </div>
+                </Card.Section>
+
                 <Card.Section>
                   <TextField
                     label="Title"
@@ -93,6 +104,8 @@ export default function NewAdvert() {
                     onClearButtonClick={() => setTitle("")}
                     helpText={<span>Title of your advertisement</span>}
                   />
+                </Card.Section>
+                <Card.Section>
                   <TextField
                     label="Ad Copy"
                     value={adCopy}
@@ -100,6 +113,8 @@ export default function NewAdvert() {
                     onChange={(newValue) => setAdCopy(newValue)}
                     helpText={<span>Make this grand</span>}
                   />
+                </Card.Section>
+                <Card.Section>
                   <ButtonGroup>
                     <Button>Cancel</Button>
                     <Button primary submit>

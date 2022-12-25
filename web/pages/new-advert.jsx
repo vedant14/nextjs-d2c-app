@@ -1,5 +1,4 @@
-import AdvertForm from "@components/kit/advertForm";
-import CustomLayout from "@components/kit/layout";
+import { CustomLayout, AdvertForm } from "@components/kit";
 
 export default function NewAdvert() {
   return (

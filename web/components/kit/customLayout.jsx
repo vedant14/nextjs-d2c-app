@@ -1,7 +1,7 @@
 import { Page, Layout } from "@shopify/polaris";
 import { TitleBar } from "@shopify/app-bridge-react";
 
-export default function CustomLayout({
+export function CustomLayout({
   title,
   primaryActionText,
   primaryActionLink,

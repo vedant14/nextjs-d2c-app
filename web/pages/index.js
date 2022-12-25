@@ -1,6 +1,5 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
-
-import CustomLayout from "@components/kit/layout";
+import { CustomLayout } from "@components/kit";
 
 export default function Home() {
   return (
