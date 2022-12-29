@@ -9,7 +9,7 @@ const ShopProvider = ({ children }) => {
 
   const [submitting, setSubmitting] = useState(true);
   const [shopData, setShopData] = useState({});
-
+  const [sessionData, setSessionData] = useState(null);
   useEffect(() => {
     setSubmitting(true);
     getShopData();
@@ -17,13 +17,14 @@ const ShopProvider = ({ children }) => {
 
   async function getShopData() {
     try {
-      const resData = await fetchFunction(`/api/admin/shop`).then((res) => {
+      const resData = await fetchFunction(`/api/admin/get-shop`).then((res) => {
         if (!res) {
           return null;
         }
         return res?.json();
       });
-      setShopData(resData);
+      setSessionData(resData.session);
+      setShopData(resData.shop);
       setSubmitting(false);
     } catch (error) {
       console.log(error);
@@ -39,16 +40,19 @@ const ShopProvider = ({ children }) => {
   }
 
   return (
-    <ShopContext.Provider value={{ shopData, setShopData }}>
+    <ShopContext.Provider
+      value={{ shopData, setShopData, sessionData, setSessionData }}
+    >
       {children}
     </ShopContext.Provider>
   );
 };
 
 const useShop = () => {
-  const { shopData, setShopData } = useContext(ShopContext);
+  const { shopData, setShopData, sessionData, setSessionData } =
+    useContext(ShopContext);
 
-  return { shopData, setShopData };
+  return { shopData, setShopData, sessionData, setSessionData };
 };
 
 export { ShopProvider, useShop };

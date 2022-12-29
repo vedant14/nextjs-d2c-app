@@ -1,8 +1,18 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
 
 import { AdList, CustomLayout } from "@components/kit";
+import { useEffect } from "react";
+import { useShop } from "@components/providers/Shop";
+import axios from "axios";
 
 export default function Home() {
+  const { sessionData, shopData } = useShop();
+  useEffect(() => {
+    console.log("SS", sessionData, shopData);
+    axios.get("/api/db/get-shop").then(function (response) {
+      console.log("response", response.data);
+    });
+  }, []);
   function HeadingCard() {
     return (
       <Card sectioned>

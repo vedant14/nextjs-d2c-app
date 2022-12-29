@@ -17,6 +17,7 @@ export const verifyAuth = async (request, response) => {
       throw `No session found`;
     }
     return {
+      session: session.request_body || null,
       shop: session.request_body.shop,
     };
   } catch (error) {

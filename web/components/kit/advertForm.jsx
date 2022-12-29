@@ -43,7 +43,7 @@ export function AdvertForm() {
     axios
       .post("/api/db/post-advert", adData)
       .then(function (response) {
-        console.log(response);
+        // console.log(response);
         // TODO: toast message and redirect
       })
       .catch(function (error) {
