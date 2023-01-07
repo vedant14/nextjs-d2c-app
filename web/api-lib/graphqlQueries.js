@@ -1,30 +1,16 @@
-export const GET_SHOP_DATA = `{
-    shop {
-      id
-      name
-      ianaTimezone
-      email
-      url
-      currencyCode
-      primaryDomain {
-        url
-        sslEnabled
-      }
-      billingAddress {
-        country
-        longitude
-        latitude
-      }
-      plan {
-        displayName
-        partnerDevelopment
-        shopifyPlus
+export const GET_SHOP_DATA = `query {
+  shop {
+    name
+    id
+    contactEmail
+    email
+    description
+    checkoutApiSupported
+    myshopifyDomain
+    productTags(first: 3) {
+      edges {
+        node
       }
     }
-    shopLocales {
-      name
-      locale
-      primary
-      published
-    }
+  }
 }`;

@@ -1,8 +1,9 @@
 import shopify from "@api-lib/shopify";
 import sessionStorage from "@api-lib/sessionStorage";
-// import { fetchMongodb } from "@api-lib/mongodb";
 import { supabase } from "@api-lib/supbaseClient";
 import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
+import axios from "axios";
+import postShop from "../db/post-shop";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -15,7 +16,6 @@ export default async function handler(request, response) {
 
     const session = callback.session;
     const shop = session.shop;
-
     // Store online auth in Supabase
     await sessionStorage.storeCallback(session);
 
@@ -28,7 +28,7 @@ export default async function handler(request, response) {
       .eq("shop_url", shop);
     if (!stores) {
       authEventType = "install";
-      console.log("This shop has never been installed");
+      console.log("This shop has never been installed", shop);
       //   await mongodb.collection("shops").insertOne({
       //     shopId: null, // TODO:
       //     shop: shop,
@@ -61,10 +61,10 @@ export default async function handler(request, response) {
     // }
     else {
       authEventType = "reauth";
-
-      if (stores) {
-        fetchShopData = false;
-      }
+      // UNcomment this till 68
+      // if (stores) {
+      //   fetchShopData = false;
+      // }
 
       // Update scopes
       //   await mongodb.collection("shops").updateOne(
@@ -87,29 +87,13 @@ export default async function handler(request, response) {
         const client = new shopify.clients.Graphql({
           session: offlineSession,
         });
-        // Set the shopData on the store during initial auth
-        const apiRes = await client.query({ data: GET_SHOP_DATA });
-        // Check if data response was successful
-        if (!apiRes?.body?.data?.shop) {
-          console.warn(`Missing shop data on ${shop}`, apiRes?.body);
-        } else {
-          const shopData = {
-            ...apiRes.body.data.shop,
-            shopLocales: apiRes.body.data.shopLocales,
-          };
-          // Save shopData to shop document
-          // await mongodb.collection("shops").updateOne(
-          //   {
-          //     shop: shop,
-          //   },
-          //   {
-          //     $set: {
-          //       shopId: shopData.id,
-          //       shopData,
-          //     },
-          //   }
-          // );
-        }
+        const data = await client.query({
+          data: GET_SHOP_DATA,
+        });
+        const shopData = data.body.data.shop;
+        postShop(shopData, function (response) {
+          console.log(response);
+        });
       }
     }
   } catch (error) {

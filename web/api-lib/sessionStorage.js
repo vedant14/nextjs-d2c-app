@@ -38,7 +38,7 @@ const loadCallback = async (id) => {
       .select("request_body")
       .eq("session_id", id);
     if (session.length > 0) {
-      return session[0];
+      return session[0].request_body;
     }
   } catch (err) {
     throw new Error(err);

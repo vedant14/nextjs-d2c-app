@@ -1,5 +1,4 @@
-import { verifyAuth } from "@api-lib/verify-auth";
-import { useShop } from "@components/providers/Shop";
+import { shopify } from "@api-lib/shopify";
 const queryString = `{
     products (first: 3) {
       edges {
@@ -12,6 +11,12 @@ const queryString = `{
   }`;
 
 export default async function handler(req, res) {
+  // if (session) {
+  //   const client = new shopify.clients.Graphql({ session });
+  //   console.log(client);
+  // }
+  // const response = await client.query({ data: queryString });
+  // console.log(req.body.sessionData);
   return res.status(200).send({ success: false });
 }
 

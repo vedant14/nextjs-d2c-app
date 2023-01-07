@@ -11,14 +11,13 @@ export const verifyAuth = async (request, response) => {
     if (!currentSessionId) {
       throw `No currentSessionId`;
     }
-
     const session = await sessionStorage.loadCallback(currentSessionId);
     if (!session) {
       throw `No session found`;
     }
     return {
-      session: session.request_body || null,
-      shop: session.request_body.shop,
+      session: session || null,
+      shop: session.shop,
     };
   } catch (error) {
     return response.status(401).json();
