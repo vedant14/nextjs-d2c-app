@@ -1,23 +1,7 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
-import { Session } from "@shopify/shopify-api";
 import { AdList, CustomLayout } from "@components/kit";
-import { useEffect } from "react";
-import { useShop } from "@components/providers/Shop";
-import axios from "axios";
 
 export default function Home() {
-  const { sessionData, shopData } = useShop();
-  // useEffect(() => {
-  //   console.log("SS", sessionData.accessToken);
-  //   // const sessionProperties = sessionData.toPropertyArray();
-  //   axios
-  //     .post("/api/db/get-shop", {
-  //       sessionData,
-  //     })
-  //     .then(function (response) {
-  //       console.log("response", response.data);
-  //     });
-  // }, []);
   function HeadingCard() {
     return (
       <Card sectioned>
