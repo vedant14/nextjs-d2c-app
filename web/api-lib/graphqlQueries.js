@@ -14,3 +14,9 @@ export const GET_SHOP_DATA = `query {
     }
   }
 }`;
+
+export const GET_APP_DATA = `query{
+  app  {
+      isPostPurchaseAppInUse
+  }
+}`;

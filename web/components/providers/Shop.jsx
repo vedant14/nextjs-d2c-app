@@ -8,11 +8,13 @@ const ShopProvider = ({ children }) => {
   const fetchFunction = userLoggedInFetch(app);
 
   const [submitting, setSubmitting] = useState(true);
+  const [postPurchase, setPostPurchase] = useState(null);
   const [shopData, setShopData] = useState({});
   const [sessionData, setSessionData] = useState(null);
   useEffect(() => {
     setSubmitting(true);
     getShopData();
+    getAppData();
   }, []);
 
   async function getShopData() {
@@ -30,7 +32,21 @@ const ShopProvider = ({ children }) => {
       console.log(error);
     }
   }
+  async function getAppData() {
+    try {
+      const resData = await fetchFunction(`/api/admin/get-app`).then((res) => {
+        if (!res) {
+          return null;
+        }
+        return res?.json();
+      });
+      setPostPurchase(resData.isPostPurchaseAppInUse);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+  console.log("sdsds", postPurchase);
   if (submitting) {
     return (
       <Page>
