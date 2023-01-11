@@ -1,7 +1,7 @@
 import { createContext, useEffect, useContext, useState } from "react";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { Page, Spinner } from "@shopify/polaris";
-import { userLoggedInFetch } from "@li``b/fetch";
+import { userLoggedInFetch } from "@lib/fetch";
 const ShopContext = createContext({});
 const ShopProvider = ({ children }) => {
   const app = useAppBridge();
@@ -46,6 +46,7 @@ const ShopProvider = ({ children }) => {
       console.error(error);
     }
   }
+
   if (submitting) {
     return (
       <Page>
