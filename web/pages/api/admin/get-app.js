@@ -10,11 +10,7 @@ export default async function handler(request, response) {
     session: session,
   });
   const data = await client.query({
-    data: `query {
-      app  {
-        isPostPurchaseAppInUse
-      }
-    }`,
+    data: GET_APP_DATA,
   });
   return response.status(200).send({
     isPostPurchaseAppInUse: data.body.data.app.isPostPurchaseAppInUse,
