@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     // Store offline session in Mongodb
     await sessionStorage.storeCallback(callback.session);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 
   res.redirect(`/api/auth?host=${req.query.host}&shop=${req.query.shop}`);

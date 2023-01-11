@@ -1,7 +1,5 @@
 import { supabase } from "@api-lib/supbaseClient";
 export default async function handler(req, res) {
-  // console.log(req.body.mobileNumber);
-
   advertCreate(
     req.body.shopData,
     req.body.title,
@@ -35,7 +33,6 @@ async function advertCreate(shopData, title, description, callback) {
     ])
     .select();
   if (!error) {
-    console.log(data);
     return callback(data[0].id);
   } else {
     return callback(false);

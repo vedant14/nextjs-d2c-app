@@ -1,6 +1,5 @@
 import { supabase } from "@api-lib/supbaseClient";
 export default function handler(req, res) {
-  // console.log(req.body.mobileNumber);
   const shopID = req.query.shopID;
   if (!shopID) {
     return res.status(404).send({ success: false });

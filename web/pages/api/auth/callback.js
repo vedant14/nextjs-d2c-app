@@ -22,7 +22,7 @@ export default async function handler(request, response) {
       .eq("shop_url", shop);
     if (!stores) {
       authEventType = "install";
-      console.log("This shop has never been installed", shop);
+      // This shop has never been installed
       const sessionId = await shopify.session.getOfflineId(shop);
       const offlineSession = await sessionStorage.loadCallback(sessionId);
 
@@ -35,7 +35,7 @@ export default async function handler(request, response) {
       });
       const shopData = data.body.data.shop;
       postShop(shopData, function (response) {
-        console.log(response);
+        //TODO: See this response and show a toast message
       });
     }
   } catch (error) {

@@ -25,11 +25,12 @@ const ShopProvider = ({ children }) => {
         }
         return res?.json();
       });
+
       setSessionData(resData.session);
       setShopData(resData.shop);
       setSubmitting(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   async function getAppData() {
@@ -42,11 +43,9 @@ const ShopProvider = ({ children }) => {
       });
       setPostPurchase(resData.isPostPurchaseAppInUse);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
-
-  console.log("sdsds", postPurchase);
   if (submitting) {
     return (
       <Page>
