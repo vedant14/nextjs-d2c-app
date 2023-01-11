@@ -1,7 +1,10 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
 import { AdList, CustomLayout } from "@components/kit";
+import { useShop } from "@components/providers/Shop";
 
 export default function Home() {
+  const { postPurchase } = useShop();
+  console.log(postPurchase);
   function HeadingCard() {
     return (
       <Card sectioned>
@@ -14,7 +17,7 @@ export default function Home() {
           <Stack.Item fill>
             <TextContainer spacing="loose">
               <Text variant="headingLg" as="h1">
-                All your active advertisements will be shown here
+                Post Purchase is {postPurchase === false ? "false" : "true"}
               </Text>
 
               <p>

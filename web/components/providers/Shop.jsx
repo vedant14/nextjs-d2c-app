@@ -57,7 +57,13 @@ const ShopProvider = ({ children }) => {
 
   return (
     <ShopContext.Provider
-      value={{ shopData, setShopData, sessionData, setSessionData }}
+      value={{
+        shopData,
+        setShopData,
+        postPurchase,
+        sessionData,
+        setSessionData,
+      }}
     >
       {children}
     </ShopContext.Provider>
@@ -65,10 +71,10 @@ const ShopProvider = ({ children }) => {
 };
 
 const useShop = () => {
-  const { shopData, setShopData, sessionData, setSessionData } =
+  const { shopData, setShopData, postPurchase, sessionData, setSessionData } =
     useContext(ShopContext);
 
-  return { shopData, setShopData, sessionData, setSessionData };
+  return { shopData, setShopData, postPurchase, sessionData, setSessionData };
 };
 
 export { ShopProvider, useShop };
