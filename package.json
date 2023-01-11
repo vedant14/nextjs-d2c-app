@@ -19,7 +19,9 @@
   "license": "MIT",
   "dependencies": {
     "@shopify/app": "^3.24.1",
-    "@shopify/cli": "^3.24.1"
+    "@shopify/cli": "^3.24.1",
+    "@shopify/post-purchase-ui-extensions-react": "^0.13.4",
+    "react": "^17.0.2"
   },
   "devDependencies": {
     "ngrok": "^4.3.3"
