@@ -6,7 +6,7 @@ import { useAppBridge } from "@shopify/app-bridge-react";
 import { Redirect } from "@shopify/app-bridge/actions";
 
 import { AppBridgeNavigation } from "@components/core";
-import { GraphQLProvider, ShopProvider } from "@components/providers";
+import { ShopProvider } from "@components/providers";
 
 export const App = ({ children }) => {
   const app = useAppBridge();
@@ -56,7 +56,7 @@ export const App = ({ children }) => {
     <>
       <ShopProvider>
         <AppBridgeNavigation />
-        <GraphQLProvider shop={shop}>{children}</GraphQLProvider>
+        {children}
       </ShopProvider>
     </>
   );
