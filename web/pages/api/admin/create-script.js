@@ -1,6 +1,5 @@
 import shopify from "@api-lib/shopify";
 import { verifyAuth } from "@api-lib/verify-auth";
-import { GET_APP_DATA } from "@api-lib/graphqlQueries";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -8,6 +7,21 @@ export default async function handler(request, response) {
   const client = new shopify.clients.Graphql({
     session: session,
   });
+
+  const scriptCreateQuery = `query{
+    mutation scriptTagCreate($input: ScriptTagInput!) {
+        scriptTagCreate(input: $input) {
+            scriptTag {
+                id
+            }
+            userErrors {
+                field
+                message
+            }
+        }
+    }
+  }`;
+
   const data = await client.query({
     data: GET_APP_DATA,
   });

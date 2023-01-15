@@ -1,6 +1,6 @@
 import shopify from "@api-lib/shopify";
 import { verifyAuth } from "@api-lib/verify-auth";
-import { GET_APP_DATA } from "@api-lib/graphqlQueries";
+import { GET_SCRIPT_TAG } from "@api-lib/graphqlQueries";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -9,9 +9,10 @@ export default async function handler(request, response) {
     session: session,
   });
   const data = await client.query({
-    data: GET_APP_DATA,
+    data: GET_SCRIPT_TAG,
   });
+  console.log(data.body.data);
   return response.status(200).send({
-    isPostPurchaseAppInUse: data.body.data.app.isPostPurchaseAppInUse,
+    data: data.body.data,
   });
 }

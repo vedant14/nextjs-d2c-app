@@ -9,12 +9,15 @@ const ShopProvider = ({ children }) => {
 
   const [submitting, setSubmitting] = useState(true);
   const [postPurchase, setPostPurchase] = useState(null);
+  const [isScript, setIsScript] = useState(null);
   const [shopData, setShopData] = useState({});
   const [sessionData, setSessionData] = useState(null);
+
   useEffect(() => {
     setSubmitting(true);
     getShopData();
     getAppData();
+    getScriptData();
   }, []);
 
   async function getShopData() {
@@ -42,6 +45,21 @@ const ShopProvider = ({ children }) => {
         return res?.json();
       });
       setPostPurchase(resData.isPostPurchaseAppInUse);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function getScriptData() {
+    try {
+      const resData = await fetchFunction(`/api/admin/get-script`).then(
+        (res) => {
+          if (!res) {
+            return null;
+          }
+          return res?.json();
+        }
+      );
+      setIsScript(resData.data);
     } catch (error) {
       console.error(error);
     }
