@@ -10,27 +10,22 @@ export default async function handler(request, response) {
 
   const metafields = await client.query({
     data: {
-      query: `mutation scriptTagCreate($input: ScriptTagInput!) {
-        scriptTagCreate(input: $input) {
-            scriptTag {
-                id
-            }
+      query: `mutation scriptTagDelete($id: ID!) {
+          scriptTagDelete(id: $id) {
+            deletedScriptTagId
             userErrors {
-                field
-                message
+              field
+              message
             }
+          }
         }
-      }`,
+    `,
       variables: {
-        input: {
-          src: "https://d2c-app.vercel.app/test-script.js",
-          displayScope: "ORDER_STATUS",
-        },
+        id: "gid://shopify/ScriptTag/180316668109",
       },
     },
   });
-
-  console.log(metafields.body.data.scriptTagCreate);
+  console.log(metafields.body.data.scriptTagDelete);
   return response.status(200).send({
     data: true,
   });
