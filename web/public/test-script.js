@@ -6,16 +6,21 @@ script.onreadystatechange = handler;
 script.onload = handler;
 document.getElementsByTagName("head")[0].appendChild(script);
 function handler() {
-  const body = $("body");
-  const shop = Shopify.shop;
-  console.log(shop);
+  function myContent(data) {
+    const sectionHeader = document.getElementsByClassName("section__header")[0];
+    const myContentBox = (
+      <div style={{ border: "1px solid red" }}>{data.title}</div>
+    );
+    myContentBox.insertAfter(sectionHeader);
+  }
 
+  const shop = Shopify.shop;
   fetch(
     `http://127.0.0.1:5001/coworkingspaces-48082/us-central1/app/product-data?tagId=${shop}`
   )
     .then((res) => res.json())
     .then((data) => {
-      console.log(data);
+      myContent(data);
     })
     .catch((error) => console.log(error));
 }
