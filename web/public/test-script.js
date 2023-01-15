@@ -8,8 +8,8 @@ document.getElementsByTagName("head")[0].appendChild(script);
 function handler() {
   function myContent(data) {
     const sectionHeader = document.getElementsByClassName("section__header")[0];
-    const myContentBox = (
-      <div style={{ border: "1px solid red" }}>{data.title}</div>
+    const myContentBox = $(
+      `<div style={{ border: "1px solid red" }}>${data.title}</div>`
     );
     myContentBox.insertAfter(sectionHeader);
   }
