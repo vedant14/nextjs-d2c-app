@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { AppProvider as PolarisProvider } from "@shopify/polaris";
 import polarisTranslations from "@shopify/polaris/locales/en.json";
 import "@shopify/polaris/build/esm/styles.css";
@@ -17,7 +16,6 @@ function MyApp({ Component, pageProps }) {
         <PolarisProvider i18n={polarisTranslations} linkComponent={Link}>
           <Component {...pageProps} />
         </PolarisProvider>
-        <VercelAnalytics />
       </ErrorProvider>
     );
   }
@@ -31,7 +29,6 @@ function MyApp({ Component, pageProps }) {
           </App>
         </AppBridgeProvider>
       </PolarisProvider>
-      <VercelAnalytics />
     </ErrorProvider>
   );
 }

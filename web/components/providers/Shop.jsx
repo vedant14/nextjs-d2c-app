@@ -17,6 +17,7 @@ const ShopProvider = ({ children }) => {
     setSubmitting(true);
     getShopData();
     getAppData();
+    // createScriptTag();
     getScriptData();
   }, []);
 
@@ -45,6 +46,21 @@ const ShopProvider = ({ children }) => {
         return res?.json();
       });
       setPostPurchase(resData.isPostPurchaseAppInUse);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  async function createScriptTag() {
+    try {
+      const resData = await fetchFunction(`/api/admin/create-script`).then(
+        (res) => {
+          if (!res) {
+            return null;
+          }
+          return res?.json();
+        }
+      );
+      getScriptData();
     } catch (error) {
       console.error(error);
     }

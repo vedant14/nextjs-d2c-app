@@ -22,10 +22,30 @@ export default async function handler(request, response) {
     }
   }`;
 
-  const data = await client.query({
-    data: GET_APP_DATA,
+  const metafields = await client.query({
+    data: {
+      query: `mutation scriptTagCreate($input: ScriptTagInput!) {
+        scriptTagCreate(input: $input) {
+            scriptTag {
+                id
+            }
+            userErrors {
+                field
+                message
+            }
+        }
+      }`,
+      variables: {
+        input: {
+          src: "https://f511-2406-7400-73-81d0-d75-1169-7878-5153.ngrok.io/test-script.js",
+          displayScope: "ALL",
+        },
+      },
+    },
   });
+
+  console.log(metafields.body.data.scriptTagCreate);
   return response.status(200).send({
-    isPostPurchaseAppInUse: data.body.data.app.isPostPurchaseAppInUse,
+    data: true,
   });
 }

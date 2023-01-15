@@ -1,6 +1,6 @@
 import shopify from "@api-lib/shopify";
 import { verifyAuth } from "@api-lib/verify-auth";
-import { GET_SCRIPT_TAG } from "@api-lib/graphqlQueries";
+import { ALL_SCRIPTS } from "@api-lib/graphqlQueries";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -9,9 +9,9 @@ export default async function handler(request, response) {
     session: session,
   });
   const data = await client.query({
-    data: GET_SCRIPT_TAG,
+    data: ALL_SCRIPTS,
   });
-  console.log(data.body.data);
+  console.log(data.body.data.scriptTags);
   return response.status(200).send({
     data: data.body.data,
   });
