@@ -4,7 +4,7 @@ console.log("HEY");
 // script.type = "text/javascript";
 // script.onreadystatechange = handler;
 // script.onload = handler;
-document.getElementsByTagName("head")[0].appendChild(script);
+// document.getElementsByTagName("head")[0].appendChild(script);
 function handler() {
   function myContent(data) {
     const sectionHeader = document.getElementsByClassName("section__header")[0];
