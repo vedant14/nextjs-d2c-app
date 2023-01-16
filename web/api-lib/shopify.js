@@ -7,7 +7,7 @@ const shopify = shopifyApi({
   apiKey: process.env.SHOPIFY_API_KEY,
   apiSecretKey: process.env.SHOPIFY_API_SECRET_KEY,
   scopes: process.env.SCOPES.split(","),
-  hostName: process.env.HOST,
+  hostName: process.env.HOST.replace(/http:\/\//, ""),
   hostScheme: "http",
   isEmbeddedApp: true,
   apiVersion: ApiVersion.October22,

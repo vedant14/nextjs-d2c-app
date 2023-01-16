@@ -23,7 +23,7 @@ export default async function handler(request, response) {
       }`,
       variables: {
         input: {
-          src: "https://d2c-app.vercel.app/test-script.js",
+          src: "https://d2c-app.vercel.app/d2c-connect-script-tag.js",
           displayScope: "ORDER_STATUS",
         },
       },

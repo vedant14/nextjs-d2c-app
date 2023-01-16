@@ -21,7 +21,7 @@ export default async function handler(request, response) {
         }
     `,
       variables: {
-        id: "gid://shopify/ScriptTag/180316668109",
+        id: "gid://shopify/ScriptTag/180316700877",
       },
     },
   });
