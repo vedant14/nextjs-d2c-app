@@ -4,8 +4,8 @@ function myContent(data) {
   const title = document.createElement("h2");
   title.style.borderTop = "1px solid #e6e6e6";
   title.style.paddingTop = "1em";
-  title.style.margin = "1em ";
-  const titleText = document.createTextNode("Support other D2C stores");
+  title.style.margin = "1em 0";
+  const titleText = document.createTextNode("Support home-grown businesses");
   titleText.className = "heading-2";
   title.appendChild(titleText);
   sectionHeader.after(title);
