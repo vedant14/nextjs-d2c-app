@@ -11,8 +11,12 @@ export function AppBridgeNavigation() {
     destination: `/`,
   });
   const newAdvertLink = AppLink.create(app, {
-    label: "New Ad",
+    label: "Create Ad",
     destination: `/new-advert`,
+  });
+  const settingsLink = AppLink.create(app, {
+    label: "Settings",
+    destination: `/settings`,
   });
 
   const activeLink = (pathName) => {
@@ -24,7 +28,7 @@ export function AppBridgeNavigation() {
   };
 
   NavigationMenu.create(app, {
-    items: [dashboardLink, newAdvertLink],
+    items: [dashboardLink, newAdvertLink, settingsLink],
     active: activeLink(router?.pathname),
   });
 

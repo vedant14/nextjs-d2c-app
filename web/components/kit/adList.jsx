@@ -40,73 +40,71 @@ export function AdList() {
       <ResourceList
         resourceName={{ singular: "ad", plural: "ads" }}
         items={adListData}
-        renderItem={(item) => {
-          const media = (
-            <Thumbnail
-              size="large"
-              source={item.products[0].image}
-              alt={item.title}
-            />
-          );
-          return (
-            <ResourceItem
-              verticalAlignment="center"
-              id={item.id}
-              media={media}
-              accessibilityLabel={`View details for`}
-              name={item.title}
-            >
-              <TextContainer>
-                <Text variant="subdued">ID: {item.id}</Text>
-              </TextContainer>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div style={{ display: "flex" }}>
-                  <Text variant="subdued">Title: </Text>
-                  <span style={{ marginLeft: "10px" }}>
-                    <Text variant="strong">{item.title}</Text>
-                  </span>
-                </div>
-                <div style={{ display: "flex" }}>
-                  <span style={{ marginLeft: "10px" }}>
-                    <Button
-                      size="slim"
-                      plain
-                      onClick={() => {
-                        setEditId(item.id);
-                        handleChange();
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </span>
-                  <span style={{ marginLeft: "5px" }}>
-                    <Button
-                      size="slim"
-                      plain
-                      destructive
-                      onClick={() => {
-                        setDeleteId(item.id);
-                        handleDeleteModal();
-                      }}
-                    >
-                      Delete
-                    </Button>
-                  </span>
-                </div>
-              </div>
-              <TextContainer>
-                <Text variant="subdued">{item.description}</Text>
-              </TextContainer>
-              <div style={{ display: "flex" }}>
-                <Text variant="subdued">Status: </Text>
-                <span style={{ marginLeft: "5px" }}>
-                  <Text variant="positive">Approved</Text>
-                </span>
-              </div>
-            </ResourceItem>
-          );
-        }}
+        renderItem={renderItem}
       />
     </Card>
+  );
+}
+
+function renderItem(item) {
+  const media = (
+    <Thumbnail size="large" source={item.products[0].image} alt={item.title} />
+  );
+  return (
+    <ResourceItem
+      verticalAlignment="center"
+      id={item.id}
+      media={media}
+      accessibilityLabel={`View details for`}
+      name={item.title}
+    >
+      <TextContainer>
+        <Text variant="subdued">ID: {item.id}</Text>
+      </TextContainer>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex" }}>
+          <Text variant="subdued">Title: </Text>
+          <span style={{ marginLeft: "10px" }}>
+            <Text variant="strong">{item.title}</Text>
+          </span>
+        </div>
+        <div style={{ display: "flex" }}>
+          <span style={{ marginLeft: "10px" }}>
+            <Button
+              size="slim"
+              plain
+              onClick={() => {
+                setEditId(item.id);
+                handleChange();
+              }}
+            >
+              Edit
+            </Button>
+          </span>
+          <span style={{ marginLeft: "5px" }}>
+            <Button
+              size="slim"
+              plain
+              destructive
+              onClick={() => {
+                setDeleteId(item.id);
+                handleDeleteModal();
+              }}
+            >
+              Delete
+            </Button>
+          </span>
+        </div>
+      </div>
+      <TextContainer>
+        <Text variant="subdued">{item.description}</Text>
+      </TextContainer>
+      <div style={{ display: "flex" }}>
+        <Text variant="subdued">Status: </Text>
+        <span style={{ marginLeft: "5px" }}>
+          <Text variant="positive">Approved</Text>
+        </span>
+      </div>
+    </ResourceItem>
   );
 }
