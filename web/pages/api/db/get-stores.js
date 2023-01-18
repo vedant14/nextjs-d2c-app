@@ -16,7 +16,7 @@ export const config = {
   },
 };
 
-async function fetchRecords(shopID, callback) {
+export async function fetchRecords(shopID, callback) {
   let { data: stores, error } = await supabase
     .from("stores")
     .select(`id, store_name, shop_url, shop_description, blocked_stores`)
