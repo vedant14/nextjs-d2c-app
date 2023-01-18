@@ -17,7 +17,7 @@ export default function Home() {
           <Stack.Item fill>
             <TextContainer spacing="loose">
               <Text variant="headingLg" as="h1">
-                Post Purchase is {postPurchase === false ? "false" : "true"}
+                D2C connect
               </Text>
 
               <p>

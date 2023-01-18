@@ -16,7 +16,7 @@ export default function ScriptsPage() {
         return res?.json();
       });
     } catch (error) {
-      console.log("SDSS", error);
+      console.error(error);
     }
   }
   async function runCreateScripts(e) {

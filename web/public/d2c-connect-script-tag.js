@@ -41,7 +41,7 @@ function myContent(data) {
 
   var linkCreate = document.createElement("a");
   linkCreate.title = "my title text";
-  linkCreate.href = `http://127.0.0.1:5001/coworkingspaces-48082/us-central1/app/advert-click/?adDisplayId=${data.adDisplayId}&productId=${data.productId}`;
+  linkCreate.href = `https://us-central1-coworkingspaces-48082.cloudfunctions.net/app/advert-click/?adDisplayId=${data.adDisplayId}&productId=${data.productId}`;
   linkCreate.target = "_blank";
   linkCreate.appendChild(sectionBox);
 
@@ -50,7 +50,7 @@ function myContent(data) {
 
 const shop = Shopify.shop;
 fetch(
-  `http://127.0.0.1:5001/coworkingspaces-48082/us-central1/app/product-data?tagId=${shop}`
+  `https://us-central1-coworkingspaces-48082.cloudfunctions.net/app/product-data?tagId=${shop}`
 )
   .then((res) => res.json())
   .then((data) => {
