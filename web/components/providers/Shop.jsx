@@ -37,15 +37,19 @@ const ShopProvider = ({ children }) => {
       const resData = await fetchFunction(`/api/admin/get-script`).then(
         (res) => {
           if (!res) {
-            console.log("ressssss", res);
+            return null;
           }
           return res?.json();
         }
       );
-      console.log("ressssss", resData);
-      setIsScript(resData.data);
+      if (resData.data.scriptTags.nodes.length > 0) {
+        setIsScript(true);
+      } else {
+        setIsScript(false);
+        // TODO: createScript Call
+      }
     } catch (error) {
-      console.log("ressssss", resData);
+      // TODO: Handle the authentication errors
     }
   }
 

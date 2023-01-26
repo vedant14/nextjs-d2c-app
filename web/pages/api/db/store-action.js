@@ -38,7 +38,7 @@ async function fetchCurrentStore(shopID, callback) {
   const { data: shopData } = await supabase
     .from("stores")
     .select("*")
-    .eq("id", shopID);
-
+    .eq("id", shopID)
+    .is("deleted_at", null);
   return callback(shopData[0]);
 }
