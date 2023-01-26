@@ -1,6 +1,6 @@
 import { supabase } from "./supbaseClient";
 /*
-      The storeCallback takes in the Session, and stores it on mongodb
+      The storeCallback takes in the Session, and stores it on supabase
       This callback is used for BOTH saving new Sessions and updating existing Sessions.
       If the session can be stored, return true
       Otherwise, return false
@@ -11,18 +11,18 @@ const storeCallback = async (session) => {
       [
         {
           session_id: session.id,
-          session: session.session,
           shop: session.shop,
-          access_token: session.accessToken,
           request_body: session,
+          isOnline: session.isOnline,
           scope: session.scope.split(","),
+          updated_at: new Date().toISOString(),
         },
       ],
       { onConflict: "session_id" }
     );
     return true;
   } catch (err) {
-    throw new Error(err);
+    return false;
   }
 };
 
