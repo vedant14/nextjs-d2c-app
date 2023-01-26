@@ -37,6 +37,12 @@ export default function ScriptsPage() {
     <CustomLayout title="Create a new ad">
       <button onClick={(e) => runDeleteScripts(e)}>Delete Scripts</button>
       <button onClick={(e) => runCreateScripts(e)}>Create Scripts</button>
+      <button onClick={(e) => runCreateScripts(e)}>
+        Create Orders Webhook
+      </button>
+      <button onClick={(e) => runCreateScripts(e)}>
+        Delete Orders Webhook
+      </button>
     </CustomLayout>
   );
 }

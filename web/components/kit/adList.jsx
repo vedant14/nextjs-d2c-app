@@ -84,14 +84,7 @@ export function AdList() {
             <Text variant="subdued">ID: {item.id}</Text>
           </TextContainer>
           <ButtonGroup segmented>
-            <Button
-              size="slim"
-              monochrome
-              onClick={() => {
-                setEditId(item.id);
-                handleChange();
-              }}
-            >
+            <Button size="slim" monochrome>
               Edit
             </Button>
             {item.deactivated === true && (
