@@ -63,7 +63,6 @@ export function AdList() {
   }
 
   function renderItem(item) {
-    console.log(item);
     const media = (
       <Thumbnail
         size="large"

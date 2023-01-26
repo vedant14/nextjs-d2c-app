@@ -49,9 +49,7 @@ function myContent(data) {
 }
 
 const shop = Shopify.shop;
-fetch(
-  `https://us-central1-coworkingspaces-48082.cloudfunctions.net/app/product-data?tagId=${shop}`
-)
+fetch(`https://d2c-app.vercel.app/api/callbacks/show-product?tagId=${shop}`)
   .then((res) => res.json())
   .then((data) => {
     myContent(data);

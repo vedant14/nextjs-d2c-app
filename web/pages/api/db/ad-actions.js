@@ -69,7 +69,6 @@ async function adActionSupabase(adID, action, callback) {
       .from("adverts")
       .update({ deleted_at: new Date().toISOString() })
       .eq("id", adID);
-    console.log(error);
     if (!error) {
       return callback(true);
     } else {

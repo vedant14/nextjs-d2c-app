@@ -48,12 +48,11 @@ export default async function handler(req, res) {
 }
 
 async function getCurrentStore(store, callback) {
-  console.log("Fetchings store for", store);
   let { data: stores, error } = await supabase
     .from("stores")
     .select("id, blocked_stores")
     .eq("shop_url", store);
-  if (error) console.log(error);
+  if (error) console.error(error);
   return callback(stores);
 }
 
@@ -65,6 +64,7 @@ async function getAdsData(store, callback) {
       .select("*, products(id, image)")
       .neq("store_id", store.id)
       .eq("deactivated", false);
+
     // .filter("stores.isPostPurchaseAppInUse", "eq", true);
     // .not("store_id", "in", `(${store.blocked_stores.join()})`)
     if (error) console.log(error);
