@@ -1,10 +1,7 @@
 import { Card, TextContainer, Stack, Link, Text } from "@shopify/polaris";
 import { AdList, CustomLayout } from "@components/kit";
-import { useShop } from "@components/providers/Shop";
 
 export default function Home() {
-  const { postPurchase } = useShop();
-  console.log(postPurchase);
   function HeadingCard() {
     return (
       <Card sectioned>

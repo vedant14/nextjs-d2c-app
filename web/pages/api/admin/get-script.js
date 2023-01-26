@@ -11,7 +11,7 @@ export default async function handler(request, response) {
   const data = await client.query({
     data: ALL_SCRIPTS,
   });
-  console.log(data.body.data.scriptTags);
+  // console.log(data.body.data.scriptTags);
   return response.status(200).send({
     data: data.body.data,
   });

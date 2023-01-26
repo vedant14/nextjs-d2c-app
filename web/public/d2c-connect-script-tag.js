@@ -54,7 +54,6 @@ fetch(
 )
   .then((res) => res.json())
   .then((data) => {
-    console.log(data);
     myContent(data);
   })
-  .catch((error) => console.log(error));
+  .catch((error) => console.error(error));

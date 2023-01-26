@@ -1,5 +1,11 @@
 import { supabase } from "@api-lib/supbaseClient";
 
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
+
 export default async function handler(req, res) {
   storeActionSupabase(
     req.body.shopID,
@@ -33,6 +39,6 @@ async function fetchCurrentStore(shopID, callback) {
     .from("stores")
     .select("*")
     .eq("id", shopID);
-  console.log(shopData);
-  return callback(shopData[0].blocked_stores);
+
+  return callback(shopData[0]);
 }

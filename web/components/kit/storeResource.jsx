@@ -10,11 +10,11 @@ import {
 } from "@shopify/polaris";
 import { useShop } from "@components/providers/Shop";
 import { onlyUnique } from "@components/helpers/helpers";
+import { useEffect } from "react";
 export function ShowStores({ storesData }) {
   const [selectedItems, setSelectedItems] = useState([]);
-  const { shopData } = useShop();
+  const { shopData, setShopData } = useShop();
   const [blockedStore, setBlockedStores] = useState(shopData.blocked_stores);
-  console.log(blockedStore);
 
   async function getStoreAction(actionKey) {
     // call the store Action api
@@ -34,7 +34,6 @@ export function ShowStores({ storesData }) {
         }
       });
     }
-    console.log("UNII", blockedArrayData);
     const actionData = {
       shopID: shopData.id,
       blockedArrayData: blockedArrayData,
@@ -43,7 +42,8 @@ export function ShowStores({ storesData }) {
       .post("/api/db/store-action", actionData)
       .then(function (response) {
         // TODO: toast message and redirect
-        setBlockedStores(response.data);
+        setShopData(response.data);
+        setBlockedStores(response.data.blocked_stores);
         setSelectedItems([]);
       })
       .catch(function (error) {

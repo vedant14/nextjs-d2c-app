@@ -30,7 +30,6 @@ export default async function handler(request, response) {
     },
   });
 
-  console.log(metafields.body.data.scriptTagCreate);
   return response.status(200).send({
     data: true,
   });
