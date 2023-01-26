@@ -8,7 +8,8 @@ export default async function handler(request, response) {
     session: session,
   });
 
-  const metafields = await client.query({
+  // TODO: ERROR HANDLING HERE
+  await client.query({
     data: {
       query: `mutation scriptTagCreate($input: ScriptTagInput!) {
         scriptTagCreate(input: $input) {
