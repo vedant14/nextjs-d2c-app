@@ -4,6 +4,7 @@ import { useShop } from "@components/providers/Shop";
 import {
   Card,
   Text,
+  ButtonGroup,
   ResourceList,
   Thumbnail,
   TextContainer,
@@ -78,70 +79,63 @@ export function AdList() {
         accessibilityLabel={`View details for`}
         name={item.title}
       >
-        <TextContainer>
-          <Text variant="subdued">ID: {item.id}</Text>
-        </TextContainer>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <div style={{ display: "flex" }}>
-            <Text variant="subdued">Title: </Text>
-            <span style={{ marginLeft: "10px" }}>
-              <Text variant="strong">{item.title}</Text>
-            </span>
-          </div>
-          <div style={{ display: "flex" }}>
-            <span style={{ marginLeft: "10px" }}>
+          <TextContainer>
+            <Text variant="subdued">ID: {item.id}</Text>
+          </TextContainer>
+          <ButtonGroup segmented>
+            <Button
+              size="slim"
+              monochrome
+              onClick={() => {
+                setEditId(item.id);
+                handleChange();
+              }}
+            >
+              Edit
+            </Button>
+            {item.deactivated === true && (
               <Button
                 size="slim"
-                plain
+                monochrome
                 onClick={() => {
-                  setEditId(item.id);
-                  handleChange();
+                  callAdAction(item.id, "activate");
                 }}
               >
-                Edit
+                Activate
               </Button>
-            </span>
-            {item.deactivated === true ? (
-              <>
-                <span style={{ marginLeft: "5px" }}>
-                  <Button
-                    size="slim"
-                    plain
-                    onClick={() => {
-                      callAdAction(item.id, "activate");
-                    }}
-                  >
-                    Activate
-                  </Button>
-                </span>
-                <span style={{ marginLeft: "5px" }}>
-                  <Button
-                    size="slim"
-                    plain
-                    destructive
-                    onClick={() => {
-                      callAdAction(item.id, "delete");
-                    }}
-                  >
-                    Delete
-                  </Button>
-                </span>
-              </>
-            ) : (
-              <span style={{ marginLeft: "5px" }}>
-                <Button
-                  size="slim"
-                  plain
-                  destructive
-                  onClick={() => {
-                    callAdAction(item.id, "delist");
-                  }}
-                >
-                  Delist
-                </Button>
-              </span>
             )}
-          </div>
+
+            {item.deactivated === true ? (
+              <Button
+                size="slim"
+                destructive
+                outline
+                onClick={() => {
+                  callAdAction(item.id, "delete");
+                }}
+              >
+                Delete
+              </Button>
+            ) : (
+              <Button
+                size="slim"
+                destructive
+                outline
+                onClick={() => {
+                  callAdAction(item.id, "delist");
+                }}
+              >
+                Delist
+              </Button>
+            )}
+          </ButtonGroup>
+        </div>
+        <div style={{ display: "flex" }}>
+          <Text variant="subdued">Title: </Text>
+          <span style={{ marginLeft: "10px" }}>
+            <Text variant="strong">{item.title}</Text>
+          </span>
         </div>
         <TextContainer>
           <Text variant="subdued">{item.description}</Text>
