@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     origin: "*",
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
   });
+
   const tag = req.query.tagId;
   if (tag) {
     getCurrentStore(tag, function (stores) {
@@ -31,7 +32,6 @@ export default async function handler(req, res) {
           }`;
               const responseObject = JSON.parse(response);
               res.send(responseObject);
-              console.log("Data sent");
             });
           } else {
             res.send(null).status(200);
