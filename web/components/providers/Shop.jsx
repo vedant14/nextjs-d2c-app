@@ -8,15 +8,12 @@ const ShopProvider = ({ children }) => {
   const fetchFunction = userLoggedInFetch(app);
 
   const [submitting, setSubmitting] = useState(true);
-  const [postPurchase, setPostPurchase] = useState(null);
   const [isScript, setIsScript] = useState(null);
   const [shopData, setShopData] = useState({});
-  const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
     setSubmitting(true);
     getShopData();
-    getAppData();
     getScriptData();
   }, []);
 
@@ -28,23 +25,8 @@ const ShopProvider = ({ children }) => {
         }
         return res?.json();
       });
-
-      setSessionData(resData.session);
       setShopData(resData.shop);
       setSubmitting(false);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  async function getAppData() {
-    try {
-      const resData = await fetchFunction(`/api/admin/get-app`).then((res) => {
-        if (!res) {
-          return null;
-        }
-        return res?.json();
-      });
-      setPostPurchase(resData.isPostPurchaseAppInUse);
     } catch (error) {
       console.error(error);
     }
@@ -55,14 +37,15 @@ const ShopProvider = ({ children }) => {
       const resData = await fetchFunction(`/api/admin/get-script`).then(
         (res) => {
           if (!res) {
-            return null;
+            console.log("ressssss", res);
           }
           return res?.json();
         }
       );
+      console.log("ressssss", resData);
       setIsScript(resData.data);
     } catch (error) {
-      console.error(error);
+      console.log("ressssss", resData);
     }
   }
 
@@ -79,9 +62,6 @@ const ShopProvider = ({ children }) => {
       value={{
         shopData,
         setShopData,
-        postPurchase,
-        sessionData,
-        setSessionData,
       }}
     >
       {children}
@@ -90,10 +70,9 @@ const ShopProvider = ({ children }) => {
 };
 
 const useShop = () => {
-  const { shopData, setShopData, postPurchase, sessionData, setSessionData } =
-    useContext(ShopContext);
+  const { shopData, setShopData } = useContext(ShopContext);
 
-  return { shopData, setShopData, postPurchase, sessionData, setSessionData };
+  return { shopData, setShopData };
 };
 
 export { ShopProvider, useShop };

@@ -8,11 +8,18 @@ export default async function handler(request, response) {
   const client = new shopify.clients.Graphql({
     session: session,
   });
-  const data = await client.query({
-    data: ALL_SCRIPTS,
-  });
-  // console.log(data.body.data.scriptTags);
-  return response.status(200).send({
-    data: data.body.data,
-  });
+  await client
+    .query({
+      data: ALL_SCRIPTS,
+    })
+    .then((res) => {
+      return response.status(200).send({
+        data: res.body.data,
+      });
+    })
+    .catch((error) => {
+      return response.status(error.response.code).send({
+        data: false,
+      });
+    });
 }
