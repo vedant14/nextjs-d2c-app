@@ -51,7 +51,8 @@ async function getCurrentStore(store, callback) {
   let { data: stores, error } = await supabase
     .from("stores")
     .select("id, blocked_stores")
-    .eq("shop_url", store);
+    .eq("shop_url", store)
+    .is("deleted_at", null);
   if (error) console.error(error);
   return callback(stores);
 }
@@ -81,6 +82,7 @@ async function getAdsData(store, callback) {
 }
 
 async function createAdvertRecord(advertData, storeData, callback) {
+  // TODO: CHECK THIS why are we just sending data instead of data: ad_displays
   const { data, error } = await supabase
     .from("ad_display")
     .insert([

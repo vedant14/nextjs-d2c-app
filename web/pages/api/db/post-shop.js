@@ -13,7 +13,7 @@ async function shopCreate(shopData, callback) {
     checkoutApiSupported: shopData.checkoutApiSupported,
     owners_email: shopData.email,
     shop_description: shopData.description,
-    shopify_store_id: shopData.id,
+    shopify_store_id: Number(shopData.id.split("/").splice(-1)[0]),
   });
   if (error) {
     return callback(false);

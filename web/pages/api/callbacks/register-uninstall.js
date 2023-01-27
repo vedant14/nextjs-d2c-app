@@ -26,7 +26,8 @@ export default async function regUninstallWebhook(session, callback) {
         variables: {
           topic: "APP_UNINSTALLED",
           webhookSubscription: {
-            callbackUrl: "http://localhost:3000/api/webhooks/uninstall-shop",
+            callbackUrl:
+              "https://d2c-app.vercel.app/api/webhooks/uninstall-shop",
             format: "JSON",
           },
         },

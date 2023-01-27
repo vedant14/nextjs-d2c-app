@@ -20,7 +20,8 @@ export async function fetchRecords(shopID, callback) {
   let { data: stores, error } = await supabase
     .from("stores")
     .select(`id, store_name, shop_url, shop_description, blocked_stores`)
-    .neq("id", shopID);
+    .neq("id", shopID)
+    .is("deleted_at", null);
   if (!error) {
     return callback(stores);
   } else {

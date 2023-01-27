@@ -24,7 +24,8 @@ async function deleteShopByID(shopID, callback) {
   const { error } = await supabase
     .from("stores")
     .update({ deleted_at: new Date().toISOString() })
-    .eq("shopify_store_id", shopID);
+    .eq("shopify_store_id", shopID)
+    .is("deleted_at", null);
   if (!error) {
     return callback(true);
   } else callback(error);

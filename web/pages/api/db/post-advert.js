@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 }
 
 async function advertCreate(shopData, title, description, callback) {
+  // TODO CHECK THIS TWICE first at data: adverts and then shopdata.id should store the id only
   const { data, error } = await supabase
     .from("adverts")
     .insert([
@@ -40,6 +41,7 @@ async function advertCreate(shopData, title, description, callback) {
 }
 
 async function productCreate(advertData, productData, shopData, callback) {
+  // TODO: Check the data: stores
   const { data, error } = await supabase.from("products").insert([
     {
       advert_id: advertData,

@@ -26,7 +26,8 @@ async function storeActionSupabase(shopID, blockedArrayData, callback) {
   let { error } = await supabase
     .from("stores")
     .update({ blocked_stores: blockedArrayData })
-    .eq("id", shopID);
+    .eq("id", shopID)
+    .is("deleted_at", null);
   if (!error) {
     return callback(true);
   } else {
@@ -38,6 +39,7 @@ async function fetchCurrentStore(shopID, callback) {
   const { data: shopData } = await supabase
     .from("stores")
     .select("*")
-    .eq("id", shopID);
+    .eq("id", shopID)
+    .is("deleted_at", null);
   return callback(shopData[0]);
 }

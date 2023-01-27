@@ -6,7 +6,8 @@ export default async function handler(request, response) {
   const { data: storeData } = await supabase
     .from("stores")
     .select("*")
-    .eq("shop_url", shop);
+    .eq("shop_url", shop)
+    .is("deleted_at", null);
   if (storeData.length === 0) {
     // TODO: STORE DOES NOT EXIST CREATE A STORE
   }
