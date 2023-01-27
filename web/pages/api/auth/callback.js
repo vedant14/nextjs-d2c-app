@@ -4,6 +4,9 @@ import { supabase } from "@api-lib/supbaseClient";
 import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
 import postShop from "../db/post-shop";
 import regUninstallWebhook from "../callbacks/register-uninstall";
+import regOrderWebhook from "../callbacks/register-order-create";
+import { getSubs } from "../callbacks/get-subscriptions";
+import createOrderStatusScript from "../callbacks/create-script";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -22,6 +25,15 @@ export default async function handler(request, response) {
       .select(`id`)
       .eq("shop_url", shop)
       .is("deleted_at", null);
+
+    // regOrderWebhook(session, function (webhookStatus) {
+    //   console.log(webhookStatus);
+    // });
+
+    getSubs(session, function (response) {
+      console.log(response.data.webhookSubscriptions.edges[1].node);
+    });
+
     if (stores.length === 0) {
       // This shop has never been installed
       const sessionId = await shopify.session.getOfflineId(shop);
@@ -37,8 +49,14 @@ export default async function handler(request, response) {
       const shopData = data.body.data.shop;
       postShop(shopData, function (response) {
         //TODO: See this response and show a toast message
-        regUninstallWebhook(offlineSession, function (webhookStatus) {
-          console.log("webhook", webhookStatus);
+        regOrderWebhook(session, function (webhookStatus) {
+          console.log(webhookStatus);
+        });
+        regUninstallWebhook(session, function (webhookStatus) {
+          console.log(webhookStatus);
+        });
+        createOrderStatusScript(session, function (scriptResponse) {
+          console.log(scriptResponse);
         });
       });
     }

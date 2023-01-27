@@ -1,9 +1,6 @@
 import shopify from "@api-lib/shopify";
-import { verifyAuth } from "@api-lib/verify-auth";
 
-// Online auth token callback
-export default async function handler(request, response) {
-  const shop = req.body.shop;
+export default async function createOrderStatusScript(session, callback) {
   const client = new shopify.clients.Graphql({
     session: session,
   });
@@ -31,7 +28,5 @@ export default async function handler(request, response) {
     },
   });
 
-  return response.status(200).send({
-    data: true,
-  });
+  return callback(true);
 }

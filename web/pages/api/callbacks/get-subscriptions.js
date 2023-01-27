@@ -1,22 +1,21 @@
 import shopify from "@api-lib/shopify";
 import { supabase } from "@api-lib/supbaseClient";
 
-export default async function handler(req, res) {
-  const shop = req.query.shop;
-  if (shop) {
-    getSession(shop, function (session) {
-      const client = new shopify.clients.Graphql({ session });
-      getSubScriptions();
-      async function getSubScriptions() {
-        await client
-          .query({
-            data: `query {
-                    webhookSubscriptions(first: 2) {
+export async function getSubs(session, callback) {
+  const client = new shopify.clients.Graphql({ session });
+  await client
+    .query({
+      data: `query {
+                    webhookSubscriptions(first: 10) {
                         edges {
                             node {
                                 id
                                 topic
                                 endpoint {
+                                    ... on WebhookPubSubEndpoint {
+                                    pubSubProject
+                                    pubSubTopic
+                                    }                        
                                     __typename
                                     ... on WebhookHttpEndpoint {
                                         callbackUrl
@@ -26,18 +25,13 @@ export default async function handler(req, res) {
                         }
                     }
                 }`,
-          })
-          .then((response) => {
-            return res.status(200).send(response.body);
-          })
-          .catch((error) => {
-            res.status(404).send(error.response);
-          });
-      }
+    })
+    .then((response) => {
+      return callback(response.body);
+    })
+    .catch((error) => {
+      callback(error.response);
     });
-  } else {
-    res.status(404).send("NO SHOPs");
-  }
 }
 
 async function getSession(shop, callback) {
