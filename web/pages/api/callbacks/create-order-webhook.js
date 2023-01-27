@@ -1,8 +1,8 @@
 import shopify from "@api-lib/shopify";
-import { supabase } from "@api-lib/supbaseClient";
+import { getSession } from "@components/providers/OfflineSession";
 
 export default async function handler(req, res) {
-  const shop = req.query.shop;
+  const shop = req.body.shop;
   if (shop) {
     getSession(shop, function (session) {
       const client = new shopify.clients.Graphql({ session });
@@ -19,14 +19,21 @@ export default async function handler(req, res) {
                   webhookSubscription {
                     id
                     topic
-                    format
+                    format 
+                    endpoint {
+                        __typename
+                        ... on WebhookHttpEndpoint {
+                          callbackUrl
+                        }
+                    }
                   }
                 }
               }`,
               variables: {
-                topic: "CREATE_CAR",
+                topic: "APP_UNINSTALLED",
                 webhookSubscription: {
-                  callbackUrl: "https://ordersonshop.free.beeceptor.com",
+                  callbackUrl:
+                    "https://ordersonshop.free.beeceptor.com/uninstall",
                   format: "JSON",
                 },
               },
@@ -42,18 +49,5 @@ export default async function handler(req, res) {
     });
   } else {
     res.status(404).send("NO SHOP");
-  }
-}
-
-async function getSession(shop, callback) {
-  let { data: session, error } = await supabase
-    .from("session")
-    .select(`request_body`)
-    .eq("shop", shop)
-    .eq("isOnline", false);
-  if (!error) {
-    return callback(session[0].request_body);
-  } else {
-    return callback(false);
   }
 }

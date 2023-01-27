@@ -3,7 +3,7 @@ import { verifyAuth } from "@api-lib/verify-auth";
 
 // Online auth token callback
 export default async function handler(request, response) {
-  const { session } = await verifyAuth(request, response);
+  const shop = req.body.shop;
   const client = new shopify.clients.Graphql({
     session: session,
   });

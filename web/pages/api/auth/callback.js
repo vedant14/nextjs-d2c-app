@@ -3,6 +3,7 @@ import sessionStorage from "@api-lib/sessionStorage";
 import { supabase } from "@api-lib/supbaseClient";
 import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
 import postShop from "../db/post-shop";
+import regUninstallWebhook from "../callbacks/register-uninstall";
 
 // Online auth token callback
 export default async function handler(request, response) {
@@ -16,10 +17,11 @@ export default async function handler(request, response) {
     const session = callback.session;
     const shop = session.shop;
     await sessionStorage.storeCallback(session);
-    let { data: stores, error } = await supabase
+    let { data: stores } = await supabase
       .from("stores")
       .select(`id`)
-      .eq("shop_url", shop);
+      .eq("shop_url", shop)
+      .is("deleted_at", null);
     if (stores.length === 0) {
       // This shop has never been installed
       const sessionId = await shopify.session.getOfflineId(shop);
@@ -35,6 +37,9 @@ export default async function handler(request, response) {
       const shopData = data.body.data.shop;
       postShop(shopData, function (response) {
         //TODO: See this response and show a toast message
+        regUninstallWebhook(offlineSession, function (webhookStatus) {
+          console.log("webhook", webhookStatus);
+        });
       });
     }
   } catch (error) {
