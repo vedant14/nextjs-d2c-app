@@ -38,7 +38,6 @@ async function getSession(shop, callback) {
     .eq("shop", shop)
     .eq("isOnline", false);
   if (!error) {
-    console.log(session[0].request_body);
     return callback(session[0].request_body);
   } else {
     return callback(false);

@@ -18,10 +18,9 @@ export default async function handler(request, response) {
     await sessionStorage.storeCallback(session);
     let { data: stores, error } = await supabase
       .from("stores")
-      .select("*")
+      .select(`id`)
       .eq("shop_url", shop);
-    if (!stores) {
-      authEventType = "install";
+    if (stores.length === 0) {
       // This shop has never been installed
       const sessionId = await shopify.session.getOfflineId(shop);
       const offlineSession = await sessionStorage.loadCallback(sessionId);
