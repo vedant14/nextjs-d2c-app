@@ -20,6 +20,7 @@ async function deleteSessionsByDomain(domain, callback) {
 }
 
 async function deleteShopByID(shopID, callback) {
+  // TODO: Delete the adverts too
   const { error } = await supabase
     .from("stores")
     .update({ deleted_at: new Date().toISOString() })

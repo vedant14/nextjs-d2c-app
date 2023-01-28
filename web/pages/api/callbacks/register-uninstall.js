@@ -34,7 +34,7 @@ export default async function regUninstallWebhook(session, callback) {
       },
     })
     .then(() => {
-      return callback(true);
+      return callback("Uninstall Subscribed");
     })
     .catch((error) => {
       return callback(error.response);

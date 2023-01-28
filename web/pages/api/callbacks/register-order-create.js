@@ -34,8 +34,8 @@ export default async function regOrderWebhook(session, callback) {
         },
       },
     })
-    .then((response) => {
-      return callback(response.body);
+    .then(() => {
+      return callback("Orders Subscribed");
     })
     .catch((error) => {
       return callback(error.response);

@@ -11,5 +11,5 @@ export default async function handler(request, response) {
   if (storeData.length === 0) {
     // TODO: STORE DOES NOT EXIST CREATE A STORE
   }
-  return response.status(200).send({ shop: storeData[0], session: session });
+  return response.status(200).send({ shop: storeData[0] });
 }
