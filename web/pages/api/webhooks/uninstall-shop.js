@@ -3,7 +3,6 @@ import { supabase } from "@api-lib/supbaseClient";
 export default async function handler(req, res) {
   deleteSessionsByDomain(req.body.domain, function (session) {
     deleteShopByID(req.body.id, function (store) {
-      console.log(session, store);
       if (session === true && store === true) {
         return res.status(200).send(true);
       } else {

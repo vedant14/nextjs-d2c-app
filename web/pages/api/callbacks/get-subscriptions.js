@@ -1,5 +1,4 @@
 import shopify from "@api-lib/shopify";
-import { supabase } from "@api-lib/supbaseClient";
 
 export async function getSubs(session, callback) {
   const client = new shopify.clients.Graphql({ session });
@@ -32,17 +31,4 @@ export async function getSubs(session, callback) {
     .catch((error) => {
       callback(error.response);
     });
-}
-
-async function getSession(shop, callback) {
-  let { data: session, error } = await supabase
-    .from("session")
-    .select(`request_body`)
-    .eq("shop", shop)
-    .eq("isOnline", false);
-  if (!error) {
-    return callback(session[0].request_body);
-  } else {
-    return callback(false);
-  }
 }

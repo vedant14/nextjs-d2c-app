@@ -26,14 +26,6 @@ export default async function handler(request, response) {
       .eq("shop_url", shop)
       .is("deleted_at", null);
 
-    // regOrderWebhook(session, function (webhookStatus) {
-    //   console.log(webhookStatus);
-    // });
-
-    getSubs(session, function (response) {
-      console.log(response.data.webhookSubscriptions.edges[1].node);
-    });
-
     if (stores.length === 0) {
       // This shop has never been installed
       const sessionId = await shopify.session.getOfflineId(shop);

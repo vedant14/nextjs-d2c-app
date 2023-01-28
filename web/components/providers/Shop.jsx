@@ -8,13 +8,11 @@ const ShopProvider = ({ children }) => {
   const fetchFunction = userLoggedInFetch(app);
 
   const [submitting, setSubmitting] = useState(true);
-  const [isScript, setIsScript] = useState(null);
   const [shopData, setShopData] = useState({});
 
   useEffect(() => {
     setSubmitting(true);
     getShopData();
-    getScriptData();
   }, []);
 
   async function getShopData() {
@@ -29,27 +27,6 @@ const ShopProvider = ({ children }) => {
       setSubmitting(false);
     } catch (error) {
       console.error(error);
-    }
-  }
-
-  async function getScriptData() {
-    try {
-      const resData = await fetchFunction(`/api/admin/get-script`).then(
-        (res) => {
-          if (!res) {
-            return null;
-          }
-          return res?.json();
-        }
-      );
-      if (resData.data.scriptTags.nodes.length > 0) {
-        setIsScript(true);
-      } else {
-        setIsScript(false);
-        // TODO: createScript Call
-      }
-    } catch (error) {
-      // TODO: Handle the authentication errors
     }
   }
 
