@@ -69,7 +69,11 @@ async function createOrder(client, orderId, callback) {
       },
     })
     .then((response) => {
-      return callback(response.body);
+      if (response.body.data.draftOrderComplete.draftOrder === null) {
+        return callback(false);
+      } else {
+        return callback(response.body);
+      }
     })
     .catch((error) => {
       return callback(error);
