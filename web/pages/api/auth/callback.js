@@ -4,8 +4,7 @@ import { supabase } from "@api-lib/supbaseClient";
 import { GET_SHOP_DATA } from "@api-lib/graphqlQueries";
 import postShop from "../db/post-shop";
 import regUninstallWebhook from "../callbacks/register-uninstall";
-import regOrderWebhook from "../callbacks/register-order-create";
-import { getSubs } from "../callbacks/get-subscriptions";
+import regOrderWebhook from "../callbacks/register-order-subscription";
 import createOrderStatusScript from "../callbacks/create-script";
 
 // Online auth token callback

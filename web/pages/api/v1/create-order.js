@@ -3,10 +3,11 @@ import { supabase } from "@api-lib/supbaseClient";
 
 export default async function handler(req, res) {
   const shop = req.body.shop;
-  if (shop) {
+  const variantId = req.body.variantId;
+  if (shop || variantId) {
     getSession(shop, function (session) {
       const client = new shopify.clients.Graphql({ session });
-      createDraftOrder(client, function (draftOrderID) {
+      createDraftOrder(client, variantId, function (draftOrderID) {
         createOrder(client, draftOrderID, function (response) {
           res.status(200).send({ response, draftOrderID });
         });
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
   }
 }
 
-async function createDraftOrder(client, callback) {
+async function createDraftOrder(client, variantId, callback) {
   await client
     .query({
       data: {
@@ -33,7 +34,7 @@ async function createDraftOrder(client, callback) {
             email: "vedantlohbare6@gmail.com",
             lineItems: [
               {
-                variantId: "gid://shopify/ProductVariant/40311792140493",
+                variantId: variantId,
                 quantity: 1,
               },
             ],
