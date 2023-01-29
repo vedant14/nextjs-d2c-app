@@ -1,15 +1,16 @@
 import { verifyAuth } from "@api-lib/verify-auth";
-import { supabase } from "@api-lib/supbaseClient";
+import { getShopByDomain } from "@api-lib/supabaseGet";
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 
 export default async function handler(request, response) {
   const { shop } = await verifyAuth(request, response);
-  const { data: storeData } = await supabase
-    .from("stores")
-    .select("*")
-    .eq("shop_url", shop)
-    .is("deleted_at", null);
-  if (storeData.length === 0) {
-    // TODO: STORE DOES NOT EXIST CREATE A STORE
-  }
-  return response.status(200).send({ shop: storeData[0] });
+
+  getShopByDomain(shop, function (storeData) {
+    // Should I check the session here as well
+    return response.status(200).send({ shop: storeData });
+  });
 }
