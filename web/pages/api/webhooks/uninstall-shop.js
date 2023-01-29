@@ -1,5 +1,5 @@
 import {
-  deleteAdvertsByID,
+  deleteAdvertsByShopID,
   deleteSessionsByDomain,
   deleteShopByShopifyID,
 } from "@api-lib/supabaseDelete";
@@ -7,7 +7,7 @@ import {
 export default async function handler(req, res) {
   deleteSessionsByDomain(req.body.domain, function (session) {
     deleteShopByShopifyID(req.body.id, function (store) {
-      deleteAdvertsByID(store, function (adverts) {
+      deleteAdvertsByShopID(store, function (adverts) {
         if (session === true && adverts === true) {
           return res.status(200).send(true);
         } else {

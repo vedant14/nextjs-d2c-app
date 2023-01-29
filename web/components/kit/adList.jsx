@@ -66,7 +66,7 @@ export function AdList() {
     const media = (
       <Thumbnail
         size="large"
-        source={item.products[0].image}
+        source={item.products[0]?.image}
         alt={item.title}
       />
     );

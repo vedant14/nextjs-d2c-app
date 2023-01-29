@@ -19,7 +19,7 @@ export async function deleteShopByShopifyID(shopID, callback) {
   } else callback(error);
 }
 
-export async function deleteAdvertsByID(shopID, callback) {
+export async function deleteAdvertsByShopID(shopID, callback) {
   // TODO: Delete the adverts too
   const { error } = await supabase
     .from("adverts")
@@ -29,4 +29,16 @@ export async function deleteAdvertsByID(shopID, callback) {
   if (!error) {
     return callback(true);
   } else callback(error);
+}
+
+export async function deleteAdvertbyID(adID, callback) {
+  let { error } = await supabase
+    .from("adverts")
+    .update({ deleted_at: new Date().toISOString() })
+    .eq("id", adID);
+  if (!error) {
+    return callback(true);
+  } else {
+    return callback(false);
+  }
 }
