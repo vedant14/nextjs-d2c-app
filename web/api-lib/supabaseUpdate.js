@@ -21,3 +21,20 @@ export async function delistAdvertbyID(adID, callback) {
     return callback(false);
   }
 }
+
+export async function updateStoreBlockedList(
+  shopID,
+  blockedArrayData,
+  callback
+) {
+  let { error } = await supabase
+    .from("stores")
+    .update({ blocked_stores: blockedArrayData })
+    .eq("id", shopID)
+    .is("deleted_at", null);
+  if (!error) {
+    return callback(true);
+  } else {
+    return callback(false);
+  }
+}

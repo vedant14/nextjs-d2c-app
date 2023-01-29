@@ -15,9 +15,10 @@ export const verifyAuth = async (request, response) => {
     if (!session) {
       throw `No session found`;
     }
+
     return {
       session: session || null,
-      shop: session.shop,
+      shop: session.shop || null,
     };
   } catch (error) {
     return response.status(401).json();
