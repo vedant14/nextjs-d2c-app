@@ -1,11 +1,18 @@
 import shopify from "@api-lib/shopify";
+import { loadOfflineSessionByShopDomain } from "@api-lib/supabaseSession";
 import { supabase } from "@api-lib/supbaseClient";
+
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 
 export default async function handler(req, res) {
   const shop = req.body.shop;
   const variantId = req.body.variantId;
   if (shop || variantId) {
-    getSession(shop, function (session) {
+    loadOfflineSessionByShopDomain(shop, function (session) {
       const client = new shopify.clients.Graphql({ session });
       createDraftOrder(client, variantId, function (draftOrderID) {
         createOrder(client, draftOrderID, function (response) {

@@ -4,7 +4,9 @@ import { supabase } from "./supbaseClient";
       This callback is used for BOTH saving new Sessions and updating existing Sessions.
       If the session can be stored, return true
       Otherwise, return false
-  */
+ 
+      */
+
 export async function storeSessionCallback(session) {
   let { error } = await supabase.from("session").upsert(
     [
