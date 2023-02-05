@@ -10,11 +10,15 @@ import createOrderStatusScript from "../callbacks/create-script";
 // Online auth token callback
 export default async function handler(request, response) {
   try {
-    const callback = await shopify.auth.callback({
-      isOnline: true,
-      rawRequest: request,
-      rawResponse: response,
-    });
+    const callback = await shopify.auth
+      .callback({
+        isOnline: true,
+        rawRequest: request,
+        rawResponse: response,
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
 
     const session = callback.session;
     const shop = session.shop;
